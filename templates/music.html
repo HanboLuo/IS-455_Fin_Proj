@@ -6,13 +6,13 @@
   <title>Music Hub 🎵</title>
   <!-- Link to CSS -->
   <link rel="stylesheet" href="static/style/main.css"/>
-  <!-- Defer your script so that DOM loads first -->
+  <!-- Link to JS Script -->
   <script defer src="static/script/modal.js"></script>
 </head>
 <body>
   <header>
     <nav>
-      <div class="logo">🎶 Music Hub</div>
+      <div class="title">🎶 Music Hub</div>
       <ul class="nav-links">
         <li><a href="home" id="homeLink">Home</a></li>
         <li><a href="collection" id="collectionLink">My Collection</a></li>
@@ -20,26 +20,25 @@
     </nav>
   </header>
 
-  <!-- HERO SECTION WITH SEARCH & TOP 5 -->
-  <section class="hero">
-    <!-- LEFT SIDE: SEARCH, TITLE, ETC. -->
-    <div class="hero-content">
+  <!-- Home Section with Search & Top 5 -->
+  <section class="home">
+    <div class="home-content">
       <h1>DISCOVER YOUR NEXT FAVORITE SONG</h1>
       <p>Explore songs, artists, and playlists tailored for you</p>
-      <!-- If you want a real form, use <form method="GET" action="/search">, for example -->
       <div class="search-bar">
         <input id="search" type="text" placeholder="Search by song or artist" />
         <button id="searchButton" onclick="performSearch()">Search</button>
       </div>
 
       <div id="searchResults"></div>
+         <!-- Dynamically populated by function performSearch() in modal.js -->
     </div>
 
     <!-- Show top 5 songs by likes -->
-    <div class="hero-right">
+    <div class="home-right">
       <h2>Top 5 Songs</h2>
       <div id="topSongsContainer">
-        <!-- Dynamically populated by JS or server templating -->
+        <!-- Dynamically populated by function loadTopSongs() in modal.js -->
       </div>
     </div>
   </section>
@@ -47,6 +46,7 @@
   <section id="collectionSection">
     <h2 id="collectionTitle"> Your Collection</h2>
     <div id="collectionContainer"></div>
+      <!-- Dynamically populated by function loadMyCollection() in modal.js -->
   </section>
 
 </body>

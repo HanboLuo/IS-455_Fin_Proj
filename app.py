@@ -15,9 +15,7 @@ def index():
 
 @app.route('/top-songs')
 def top_songs():
-    """
-    Returns the top 5 songs (by likes) from the database.
-    """
+    # Returns the top 5 songs (by likes) from the database.
     cursor = mysql.connection.cursor()
     try:
         sql = f"SELECT id, name, artist, likes FROM songs ORDER BY likes DESC LIMIT 5"
@@ -29,10 +27,7 @@ def top_songs():
 
 @app.route('/search')
 def search():
-    """
-    Fuzzy search for songs matching the given query 
-    in either the name or artist fields.
-    """
+    # Search for songs matching the given query in either the name or artist fields.
     query = request.args.get('search', '').strip()
     cursor = mysql.connection.cursor()
     try:
@@ -50,10 +45,7 @@ def search():
 
 @app.route('/add-to-collection', methods=['POST'])
 def add_to_collection():
-    """
-    Add a song to the user's collection.
-    (In a real app, you'd track which user is logged in, etc.)
-    """
+    #Add a song to the user's collection. (In a real app, you'd track which user is logged in, etc.)
     data = request.get_json()
     song_id = data.get('id')
 
@@ -67,6 +59,7 @@ def add_to_collection():
 
 @app.route('/my-collection')
 def my_collection():
+    # Returns the user's collection of songs
     cursor = mysql.connection.cursor()
     sql = f"SELECT id, name, artist, genre, likes FROM songs WHERE collected = TRUE ORDER BY name ASC"
     try:
@@ -79,6 +72,7 @@ def my_collection():
 
 @app.route('/remove-from-collection', methods=['POST'])
 def remove_from_collection():
+    # Remove a song from the user's collection
     data = request.get_json()
     song_id = data.get('id')
 

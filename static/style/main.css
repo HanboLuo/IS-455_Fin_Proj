@@ -1,20 +1,20 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
 }
 
-/* Body and Base Typography */
 body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e); /* Black & Purple gradient */
   height: 100%;
 }
 
-/* Header */
 header {
   padding: 20px 40px;
-  background: #1a1a1a;
+}
+
+h1, h2 {
+  color: #fff;
 }
 
 nav {
@@ -23,7 +23,7 @@ nav {
   align-items: center;
 }
 
-.logo {
+.title {
   font-weight: 800;
   font-size: 1.5rem;
   color: #b983ff;
@@ -47,28 +47,27 @@ nav {
   border-bottom: 2px solid #b983ff;
 }
 
-/* Hero Section */
-.hero {
+/* Home Section */
+.home {
   display: flex;
   flex-direction: column; 
   padding: 60px;
   background: linear-gradient(to right, #1a1a1a 61.8%, #6c36be 38.2%);
 }
 
-.hero-content {
+.home-content {
   max-width: 100%;
   margin-bottom: 30px;
 }
 
-.hero-content h1 {
+.home-content h1 {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 10px;
   text-transform: uppercase;
-  color: #fff;
 }
 
-.hero-content p {
+.home-content p {
   font-size: 1.15rem;
   margin-bottom: 25px;
   color: #ccc;
@@ -113,14 +112,13 @@ nav {
 }
 
 /* Top 5 Songs */
-.hero-right {
+.home-right {
   padding: 20px;
   max-width: 400px;
 }
 
-.hero-right h2 {
+.home-right h2 {
   margin-bottom: 15px;
-  color: #fff;
 }
 
 #topSongsContainer {
@@ -150,21 +148,20 @@ nav {
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  color: #fff;
 }
 
-/* Responsiveness for hero layout (side-by-side on larger screens) */
+/* Responsiveness for home layout */
 @media (min-width: 900px) {
-  .hero {
+  .home {
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
   }
-  .hero-content {
+  .home-content {
     max-width: 50%;
     margin-bottom: 0;
   }
-  .hero-right {
+  .home-right {
     max-width: 40%;
     margin-left: 10px;
   }

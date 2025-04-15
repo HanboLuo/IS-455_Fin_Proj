@@ -1,16 +1,19 @@
+// -------------- LOAD "MY COLLECTION" --------------
 document.getElementById("collectionLink").addEventListener("click", (e) => {
   e.preventDefault();
   document.getElementById("collectionSection").style.display = "block";
-  document.querySelector(".hero").style.display = "none";
+  document.querySelector(".home").style.display = "none";
   loadMyCollection();
 });
 
+// -------------- LOAD "HOME" --------------
 document.getElementById("homeLink").addEventListener("click", (e) => {
   e.preventDefault();
   document.getElementById("collectionSection").style.display = "none";
-  document.querySelector(".hero").style.display = "flex";
+  document.querySelector(".home").style.display = "flex";
 });
 
+// -------------- LOAD TOP 5 SONGS --------------
 window.addEventListener('DOMContentLoaded', () => {
   loadTopSongs();
 });
@@ -44,7 +47,7 @@ async function loadTopSongs() {
   }
 }
 
-// -------------- SEARCH (FUZZY) --------------
+// -------------- SEARCH --------------
 async function performSearch() {
   const container = document.getElementById("searchResults");
   container.innerHTML = "";
