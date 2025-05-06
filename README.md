@@ -7,6 +7,7 @@ SpeedExpress is a full-stack logistics system designed to support the core opera
 * Hanbo "David" Luo - hanbol3
 * Zhouyang Yu - zyu44
 * Siyu Chen - siyu10
+* Vinnie
 
 **Instructor:** Kahyun Choi  
 **Project template:** Provided by TA: Ziyang Zheng (ziyangz5)  
