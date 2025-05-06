@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SpeedExpress - Track Package</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/>
+  
+  <script>
+    function adminLogin() {
+      const password = prompt("Enter admin password:");
+      if (password === "123") {
+        window.location.href = "/dispatch.html";
+      } else if (password !== null) {
+        alert("Incorrect password.");
+      }
+    }
+  </script>
+  
+  
+  <script defer src="{{ url_for('static', filename='script/track.js') }}"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="title">📦 SpeedExpress</div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}" id="trackLink">Track Parcel</a></li>
+        <li><a href="{{ url_for('orders_page') }}" id="ordersLink">My Orders</a></li>
+        <li><a href="{{ url_for('feedback_page') }}" id="feedbackLink">Feedback</a></li>
+        <li><a href="#" onclick="adminLogin()">Admin</a></li>
+
+      </ul>
+    </nav>
+  </header>
+
+  <section class="home">
+    <div class="home-content">
+      <h1>Track Your Package</h1>
+      <p>Enter your Tracking Number to see the delivery status</p>
+      <div class="search-bar">
+        <input id="trackingInput" type="text" placeholder="Enter Tracking Number" />
+        <button onclick="trackParcel()">Track</button>
+      </div>
+      <div id="trackingResult"></div>
+    </div>
+
+    <div class="home-right">
+      <h2>Recent Deliveries</h2>
+      <div id="recentDeliveries"></div>
+    </div>
+  </section>
+</body>
+</html>

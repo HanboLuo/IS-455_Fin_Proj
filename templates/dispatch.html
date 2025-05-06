@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Courier Dispatch - SpeedExpress</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/>
+  <script defer src="{{ url_for('static', filename='script/dispatch.js') }}"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="title">📦 SpeedExpress</div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Track Parcel</a></li>
+        <li><a href="{{ url_for('orders_page') }}">My Orders</a></li>
+        <li><a href="{{ url_for('feedback_page') }}">Feedback</a></li>
+        <li><a href="{{ url_for('dispatch_page') }}">Dispatch</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="home">
+    <div class="home-content">
+      <h1>Courier Dispatch Overview</h1>
+
+      <div style="margin-bottom: 20px;">
+        <a href="{{ url_for('delivery_log_page') }}" class="add-btn">View Delivery Log</a>
+      </div>      
+
+      <div id="dispatchContainer"></div>
+    </div>
+  </section>
+</body>
+</html>

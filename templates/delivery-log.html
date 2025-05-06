@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivery Log - SpeedExpress</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/>
+  <script defer src="{{ url_for('static', filename='script/delivery-log.js') }}"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="title">📦 SpeedExpress</div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Track Parcel</a></li>
+        <li><a href="{{ url_for('orders_page') }}">My Orders</a></li>
+        <li><a href="{{ url_for('feedback_page') }}">Feedback</a></li>
+        <li><a href="{{ url_for('dispatch_page') }}">Admin Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="home">
+    <div class="home-content">
+      <h1>Delivery Record Log</h1>
+      <p>Enter Courier ID to view delivery history:</p>
+      <div class="search-bar">
+        <input id="courierIdInput" type="text" placeholder="Courier ID (e.g., 6)" />
+        <button onclick="loadDeliveryLog()">View Log</button>
+      </div>
+      <div id="logContainer"></div>
+    </div>
+  </section>
+</body>
+</html>

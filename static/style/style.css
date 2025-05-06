@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e); /* Black & Purple gradient */
+  background: linear-gradient(to bottom right, #0f0c29, #1E377A, #24243e);
   height: 100%;
 }
 
@@ -26,7 +26,7 @@ nav {
 .title {
   font-weight: 800;
   font-size: 1.5rem;
-  color: #b983ff;
+  color: #FF5F05;
 }
 
 .nav-links {
@@ -37,22 +37,22 @@ nav {
 
 .nav-links li a {
   text-decoration: none;
-  color: #ccc;
+  color: #ddd;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .nav-links li a:hover {
-  color: #b983ff;
-  border-bottom: 2px solid #b983ff;
+  color: #FF5F05;
+  border-bottom: 2px solid #FF5F05;
 }
 
 /* Home Section */
 .home {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   padding: 60px;
-  background: linear-gradient(to right, #1a1a1a 61.8%, #6c36be 38.2%);
+  background: linear-gradient(to right, #1a1a1a 60%, #6b80ccc3 40%);
 }
 
 .home-content {
@@ -95,12 +95,12 @@ nav {
 
 .search-bar input:focus {
   outline: none;
-  border-color: #b983ff;
-  box-shadow: 0 0 4px #b983ff80;
+  border-color: #FF5F05;
+  box-shadow: 0 0 4px #FFA366;
 }
 
 .search-bar button {
-  background-color: #9b5de5;
+  background-color: #FF5F05;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -108,10 +108,10 @@ nav {
 }
 
 .search-bar button:hover {
-  background-color: #6c36be;
+  background-color: #FFA366;
 }
 
-/* Top 5 Songs */
+/* Right Panel: Recent Deliveries */
 .home-right {
   padding: 20px;
   max-width: 400px;
@@ -119,9 +119,11 @@ nav {
 
 .home-right h2 {
   margin-bottom: 15px;
+  color: #fff;
 }
 
-#topSongsContainer {
+#topSongsContainer,
+#recentDeliveries {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -129,12 +131,12 @@ nav {
 
 .top-song-item {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .top-song-item span {
@@ -142,15 +144,20 @@ nav {
 }
 
 .top-song-item button {
-  background: #9b5de5;
+  background: #FF5F05;
   border: none;
   padding: 6px 8px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
+  color: #fff;
 }
 
-/* Responsiveness for home layout */
+.top-song-item button:hover {
+  background-color: #FFA366;
+}
+
+/* Responsive layout */
 @media (min-width: 900px) {
   .home {
     flex-direction: row;
@@ -167,8 +174,9 @@ nav {
   }
 }
 
+/* General button style */
 .add-btn {
-  background: #9b5de5;
+  background: #FF5F05;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
@@ -179,11 +187,10 @@ nav {
 }
 
 .add-btn:hover {
-  background: #6c36be;
+  background: #FFA366;
 }
 
-
-/* My Collection Section */
+/* My Collection Section (used in other pages like orders/feedback) */
 #collectionSection {
   margin: 0;
   padding: 20px;
@@ -198,4 +205,3 @@ nav {
   flex-direction: column;
   gap: 15px;
 }
-

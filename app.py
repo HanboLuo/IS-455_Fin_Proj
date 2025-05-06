@@ -1,87 +1,187 @@
 from flask import Flask, request, jsonify, render_template
 from flask_mysqldb import MySQL
-from config import Config 
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
 mysql = MySQL(app)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# ---------------------------
+# Track Parcel Page & API
+# ---------------------------
 
 @app.route('/')
-def index():
-    return render_template('music.html')
+def home():
+    return render_template('track.html')
 
-@app.route('/top-songs')
-def top_songs():
-    # Returns the top 5 songs (by likes) from the database.
+@app.route('/track')
+def track_parcel():
+    tracking_number = request.args.get('number', '').strip()
+    if not tracking_number:
+        return jsonify([])
+
     cursor = mysql.connection.cursor()
     try:
-        sql = f"SELECT id, name, artist, likes FROM songs ORDER BY likes DESC LIMIT 5"
+        sql = """
+        SELECT 
+            p.TrackingNumber,
+            p.CurrentStatus,
+            d.PickupTime,
+            d.DeliveryTime,
+            CONCAT(e.EmpFName, ' ', e.EmpLName) AS CourierName
+        FROM parcel p
+        LEFT JOIN deliveryrecord d ON p.TrackingNumber = d.TrackingNumber
+        LEFT JOIN courier c ON d.CourierID = c.CourierID
+        LEFT JOIN employee e ON c.CourierID = e.EmployeeID
+        WHERE p.TrackingNumber = %s
+        """
+        cursor.execute(sql, (tracking_number,))
+        result = cursor.fetchall()
+        return jsonify(result)
+    finally:
+        cursor.close()
+
+@app.route('/recent-deliveries')
+def recent_deliveries():
+    cursor = mysql.connection.cursor()
+    try:
+        sql = """
+        SELECT TrackingNumber, CurrentStatus
+        FROM parcel
+        ORDER BY EstimatedDeliveryDate DESC
+        LIMIT 5
+        """
         cursor.execute(sql)
         rows = cursor.fetchall()
         return jsonify(rows)
     finally:
         cursor.close()
 
-@app.route('/search')
-def search():
-    # Search for songs matching the given query in either the name or artist fields.
-    query = request.args.get('search', '').strip()
+# ---------------------------
+# Orders Page + API
+# ---------------------------
+
+@app.route('/orders.html')
+def orders_page():
+    return render_template('orders.html')
+
+@app.route('/api/orders')
+def get_orders():
+    customer_id = request.args.get('customer', '').strip()
+    if not customer_id:
+        return jsonify([])
+
     cursor = mysql.connection.cursor()
     try:
-        if not query:
-            # If no query is provided, return empty or all
-            return jsonify([])
-
-        sql = f"SELECT id, name, artist, likes FROM songs WHERE name LIKE %s OR artist LIKE %s"
-        search = f"%{query}%"
-        cursor.execute(sql, (search, search))
-        rows = cursor.fetchall()
-        return jsonify(rows)
+        sql = """
+        SELECT
+            o.OrderID,
+            o.OrderDate,
+            o.TotalCost,
+            o.PaymentStatus,
+            p.PaymentMethod,
+            p.PaymentDate,
+            pa.TrackingNumber,
+            pa.Weight,
+            pa.Length,
+            pa.Width,
+            pa.Height,
+            pa.CurrentStatus,
+            pa.InsuranceAmount
+        FROM `order` o
+        LEFT JOIN payment p ON o.OrderID = p.OrderID
+        LEFT JOIN parcel pa ON pa.SenderID = o.CustomerID
+        WHERE o.CustomerID = %s
+        ORDER BY o.OrderDate DESC
+        """
+        cursor.execute(sql, (customer_id,))
+        orders = cursor.fetchall()
+        return jsonify(orders)
     finally:
         cursor.close()
 
-@app.route('/add-to-collection', methods=['POST'])
-def add_to_collection():
-    #Add a song to the user's collection. (In a real app, you'd track which user is logged in, etc.)
-    data = request.get_json()
-    song_id = data.get('id')
+# ---------------------------
+# Dispatch Page + API
+# ---------------------------
 
+@app.route('/dispatch.html')
+def dispatch_page():
+    return render_template('dispatch.html')
+
+@app.route('/api/dispatch')
+def get_dispatch_data():
     cursor = mysql.connection.cursor()
     try:
-        cursor.execute("UPDATE songs SET collected = TRUE WHERE id = %s", (song_id,))
-        mysql.connection.commit()
-        return jsonify({'status': 'ok', 'message': f'Song {song_id} marked as collected.'})
-    finally:
-        cursor.close()
-
-@app.route('/my-collection')
-def my_collection():
-    # Returns the user's collection of songs
-    cursor = mysql.connection.cursor()
-    sql = f"SELECT id, name, artist, genre, likes FROM songs WHERE collected = TRUE ORDER BY name ASC"
-    try:
+        sql = """
+        SELECT
+            e.EmployeeID,
+            CONCAT(e.EmpFName, ' ', e.EmpLName) AS CourierName,
+            dz.ZoneName,
+            COUNT(dr.DeliveryID) AS TotalDeliveries,
+            MAX(dr.DeliveryTime) AS LastDeliveryTime,
+            MAX(dr.TrackingNumber) AS LastParcel
+        FROM employee e
+        JOIN courier c ON e.EmployeeID = c.CourierID
+        LEFT JOIN deliveryzone dz ON c.ZoneID = dz.ZoneID
+        LEFT JOIN deliveryrecord dr ON c.CourierID = dr.CourierID
+        GROUP BY e.EmployeeID, CourierName, dz.ZoneName
+        ORDER BY TotalDeliveries DESC
+        """
         cursor.execute(sql)
-        collection = cursor.fetchall()
-        return jsonify(collection)
+        results = cursor.fetchall()
+        return jsonify(results)
     finally:
         cursor.close()
 
+# ---------------------------
+# Delivery Log Page + API
+# ---------------------------
 
-@app.route('/remove-from-collection', methods=['POST'])
-def remove_from_collection():
-    # Remove a song from the user's collection
-    data = request.get_json()
-    song_id = data.get('id')
+@app.route('/delivery-log.html')
+def delivery_log_page():
+    return render_template('delivery-log.html')
+
+
+@app.route('/api/delivery-log')
+def delivery_log():
+    courier_id = request.args.get('courier', '').strip()
+    if not courier_id:
+        return jsonify([])
 
     cursor = mysql.connection.cursor()
     try:
-        cursor.execute("UPDATE songs SET collected = FALSE WHERE id = %s", (song_id,))
-        mysql.connection.commit()
-        return jsonify({'status': 'ok', 'message': f'Song {song_id} removed from collection.'})
+        sql = """
+        SELECT
+            d.TrackingNumber,
+            CONCAT(e.EmpFName, ' ', e.EmpLName) AS CourierName,
+            d.PickupTime,
+            d.DeliveryTime,
+            d.CustomerFeedback,
+            d.FeedbackRating
+        FROM deliveryrecord d
+        JOIN courier c ON d.CourierID = c.CourierID
+        JOIN employee e ON c.CourierID = e.EmployeeID
+        WHERE d.CourierID = %s
+        ORDER BY d.DeliveryTime DESC
+        """
+        cursor.execute(sql, (courier_id,))
+        results = cursor.fetchall()
+        return jsonify(results)
     finally:
         cursor.close()
 
 
+# ---------------------------
+# Feedback Page (placeholder)
+# ---------------------------
+
+@app.route('/feedback.html')
+def feedback_page():
+    return render_template('feedback.html')
+
+# ---------------------------
+# Run App
+# ---------------------------
+
+if __name__ == '__main__':
+    app.run(debug=True)
