@@ -3,7 +3,8 @@
 SpeedExpress is a full-stack logistics system designed to support the core operations of a courier company, including package tracking, customer order management, courier dispatch, delivery records, and customer feedback.
 
 ### Contributors
-* Hanbo (David) Luo - hanbol3
+
+* Hanbo "David" Luo - hanbol3
 * Zhouyang Yu - zyu44
 * Siyu Chen - siyu10
 
@@ -18,6 +19,7 @@ SpeedExpress is a full-stack logistics system designed to support the core opera
 - **Courier Dispatch Dashboard** (Admin only): View courier performance metrics including total deliveries, last delivery time, and delivery zone.
 - **Delivery Record Log**: Review delivery history of a specific courier with feedback and rating.
 
+Project Link: https://github.com/HanboLuo/IS-455_Fin_Proj
 
 ## Step 1. Database Scenario
 
