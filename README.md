@@ -1,4 +1,4 @@
-# SpeedExpress: Courier Tracking and Management System
+# SpeedExpress: Parcel Tracking and Management System
 
 SpeedExpress is a full-stack logistics system designed to support the core operations of a courier company, including package tracking, customer order management, courier dispatch, delivery records, and customer feedback.
 
@@ -42,7 +42,7 @@ The database is designed to support the core business processes (Business Proces
 ## Step 2. Front-end Interface
 
 <p align="center">
-  <img src="Figures/front_end.png" alt="Frontend Interface" width="600">
+  <img src="Figures/front_end.png" alt="Frontend Interface" width="800">
   <br/>
   <strong>Figure 1.</strong> SpeedExpress Frontend Interface
 </p>
@@ -89,4 +89,67 @@ Orders are uniquely identified by an Order ID. The entity also stores the Order 
 Payments are tracked using a unique Payment ID. Each payment includes an Amount paid, the Payment Method used (such as credit card, PayPal, etc.), the Payment Date when the transaction was processed, and the Payment Status, which shows whether the payment was completed, pending, or failed.
 
 
-### 
+### Relationship Requirements
+
+1) **Referral** (Recursive Relationship)  
+From Customer → Customer  
+One customer can refer many others  
+Cardinality: 1 to many  
+Participation: Both optional  
+
+2) **Places**  
+Customer → Order  
+One customer can place many orders  
+Participation: Both mandatory  
+
+3) **Pays**  
+Order → Payment  
+One-to-one mapping between order and payment  
+Participation: Both mandatory   
+
+ 4) **Delivers** (Identifying)  
+Courier → DeliveryRecord  
+One courier can complete many deliveries  
+Participation: Both mandatory  
+
+ 5) **Tracks** (Identifying)  
+Parcel → DeliveryRecord  
+Each delivery record belongs to one parcel  
+Participation: Both mandatory  
+
+ 6) **BelongsTo**
+Courier → DeliveryZone  
+Many couriers belong to one zone  
+Participation: Both mandatory  
+
+7) **Sends**  
+Customer → Parcel  
+One customer can send many parcels  
+Participation: Both mandatory  
+
+ 8) **Receives**   
+Customer → Parcel  
+One customer can receive many parcels  
+Participation: Both mandatory  
+
+
+## Step 4. EERD
+
+<p align="center">
+  <img src="Figures/EERD.png" alt="EERD" width="800">
+  <br/>
+  <strong>Figure 2.</strong> EERD of SpeedExpress
+</p>
+
+
+## Step 5. Relational Schema
+
+<p align="center">
+  <img src="Figures/Relational_Schema.png" alt="Relational_Schema" width="800">
+  <br/>
+  <strong>Figure 3.</strong> Relational Schema of SpeedExpress
+</p>
+
+
+## Step 6. Normalization (and Denormalization)
+
