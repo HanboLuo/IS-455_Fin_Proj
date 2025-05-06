@@ -3,8 +3,8 @@ import os
 class Config:
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'Hanzi123'
-    MYSQL_DB = 'spdexpress' # replace 'musicdb' with your db name
+    MYSQL_PASSWORD = 'password' # Replace with your MySQL password
+    MYSQL_DB = 'spdexpress'
     MYSQL_CURSORCLASS = 'DictCursor'
 
     # Session Configuration
