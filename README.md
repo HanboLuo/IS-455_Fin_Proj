@@ -153,3 +153,53 @@ Participation: Both mandatory
 
 ## Step 6. Normalization (and Denormalization)
 
+### 1. Original Structures: `Table (Attributes)`
+
+**Customer** (CustomerID, FirstName, LastName, Email, PhoneNumbers, Address, RegistrationDate, AccountStatus)  
+
+**Parcel** (TrackingNumber, SenderID, ReceiverID, Weight, Size, ShippingType, CurrentStatus, EstimatedDeliveryDate, ActualDeliveryDate, InsuranceAmount)  
+
+**Courier** (CourierID, FirstName, LastName, Phone, VehicleType, EmploymentDate, ZoneID, ZoneName, CoverageArea, BaseLocation)  
+
+**DeliveryZone** (ZoneID, ZoneName, CoverageArea, BaseLocation)  
+
+**DeliveryRecord** (DeliveryID, TrackingNumber, CourierID, PickupTime, DeliveryTime, CustomerFeedback, FeedbackRating)  
+
+**Order** (OrderID, CustomerID, OrderDate, TotalCost, PaymentStatus)  
+
+**Payment** (PaymentID, OrderID, Amount, PaymentMethod, PaymentDate, PaymentStatus)  
+
+
+### 2. Normalization
+
+1) Customer was normalized into multiple relations to address multivalued and composite attributes:
+
+    **Customer** (CustomerID, FirstName, LastName, Email, RegistrationDate, AccountStatus)  
+    **CustomerPhone** (CustomerID, PhoneNumber)  
+    **CustomerAddress** (CustomerID, AddressID, Street, City, ZipCode)
+
+2) Courier was normalized by extracting zone-related information into a separate table:
+
+    **Courier** (CourierID, FirstName, LastName, Phone, VehicleType, EmploymentDate, ZoneID)  
+    **DeliveryZone** (ZoneID, ZoneName, CoverageArea, BaseLocation)
+
+3) The Employee supertype was used to avoid data duplication across employee roles:
+
+    **Employee** (EmployeeID, EmpFName, EmpLName, EmployeePhone, HireDate)  
+    **Courier** (EmployeeID, VehicleType, ZoneID)  
+    **Admin** (EmployeeID, Role)
+
+4) The Parcel entity's composite attribute Size was decomposed:
+
+    **Parcel** (TrackingNumber, SenderID, ReceiverID, Weight, Length, Width, Height, ShippingType, CurrentStatus, EstimatedDeliveryDate, ActualDeliveryDate, InsuranceAmount)
+
+5) All other tables were confirmed to be in 3NF:
+
+    **DeliveryRecord** (DeliveryID, TrackingNumber, CourierID, PickupTime, DeliveryTime, CustomerFeedback, FeedbackRating)  
+    **Order** (OrderID, CustomerID, OrderDate, TotalCost, PaymentStatus)  
+    **Payment** (PaymentID, OrderID, Amount, PaymentMethod, PaymentDate, PaymentStatus)
+
+
+### 3. Denormalization
+
+To optimize query performance, ActualDeliveryDate is retained in the Parcel table, although this value can be derived from the associated DeliveryRecord. This design reduces the need for frequent JOIN operations during parcel tracking queries. Data consistency between Parcel and DeliveryRecord will be enforced at the application level or through database triggers.
