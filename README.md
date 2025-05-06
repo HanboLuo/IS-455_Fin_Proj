@@ -746,7 +746,7 @@ An admin login prompt appears when the admin tab is clicked. Entering the correc
 <p align="center">
   <img src="Figures/admin.png" alt="Admin Login" width="800">
   <br/>
-  <strong>Figure 10.4.</strong> Admin Login (Password: 123)
+  <strong>Figure 10.5.</strong> Admin Login (Password: 123)
 </p>
 
 #### 10.2.5 Dispatch Dashboard
@@ -756,7 +756,7 @@ The dashboard shows delivery statistics per courier, including delivery count, l
 <p align="center">
   <img src="Figures/dispatch.png" alt="Dispatch Dashboard" width="800">
   <br/>
-  <strong>Figure 10.5.</strong> Courier Dispatch Dashboard
+  <strong>Figure 10.6.</strong> Courier Dispatch Dashboard
 </p>
 
 #### 10.2.6 Delivery Log
@@ -766,5 +766,5 @@ Admins can enter a courier ID to view all related delivery records, including pi
 <p align="center">
   <img src="Figures/deliverylog.png" alt="Courier Delivery Log" width="800">
   <br/>
-  <strong>Figure 10.6.</strong> Courier Delivery Log
+  <strong>Figure 10.7.</strong> Courier Delivery Log
 </p>
