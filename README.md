@@ -52,39 +52,39 @@ The database is designed to support the core business processes (Business Proces
 
 ### Entity & Attribute Requirements
 
-#### Attribute in Customer
+### Attribute in Customer
 **Database Requirements for Attribute in Customer**  
 Each customer in the system has a unique Customer ID as the primary key. Customers must provide their full name, stored as separate First Name and Last Name attributes. A unique Email address is required for registration, serving as the customer's login identifier. The system supports multiple Phone Numbers per customer (a multivalued attribute) to accommodate alternate contact methods. The customer's Address is modeled as a composite attribute with sub-attributes: Street, City, and Zip Code. The Registration Date is automatically recorded to track customer tenure. An Account Status field (Active/Inactive) manages account visibility.
 
-#### Attribute in Parcel
+### Attribute in Parcel
 **Database Requirements for Attribute in Parcel**  
 Each parcel is uniquely identified by a Tracking Number. It includes key delivery details such as Shipping Type, Weight (in kilograms), and a composite Size attribute containing Length, Width, and Height (in centimeters). The Current Status tracks the progress of the parcel through stages such as "Ordered", "Picked Up", "In Transit", and "Delivered". The Estimated Delivery Date is calculated upon dispatch, while Actual Delivery Date is derived upon successful delivery. An optional Insurance Amount can be specified to indicate the parcel’s declared value.
 
-#### Attribute in Employee
+### Attribute in Employee
 **Database Requirements for Attribute in Employee**  
 All employees share a common structure defined by a unique Employee ID, a composite Employee Name (divided into EmpFName and EmpLName), a phone number for contact purposes, and the Hire Date indicating when the employee joined the organization. This structure forms the basis for general employee management across subtypes.
 
-#### Attribute in Admin
+### Attribute in Admin
 **Database Requirements for Attribute in Admin**  
 Admins are specialized employees responsible for system administration. In addition to the inherited employee attributes, each Admin record contains a Role attribute, which defines the admin's permission level or area of responsibility (e.g., account management, reporting).
 
-#### Attribute in Courier
+### Attribute in Courier
 **Database Requirements for Attribute in Courier**  
 Couriers are a subtype of employees who handle parcel delivery. Each courier has a Vehicle Type attribute indicating their mode of transportation, such as Motorcycle, Van, or Truck. They are also assigned to a specific delivery zone, which is referenced in the ZoneID attribute. All general employee information is inherited from the Employee entity.
 
-#### Attribute in DeliveryZone
+### Attribute in DeliveryZone
 **Database Requirements for Attribute in DeliveryZone**  
 Each delivery zone is uniquely identified by a Zone ID. Descriptive attributes include Zone Name, which represents the name or code for the zone, Coverage Area, which describes the geographical scope, and Base Location, identifying the central hub or depot from which deliveries in that zone are managed.
 
-#### Attribute in DeliveryRecord
+### Attribute in DeliveryRecord
 **Database Requirements for Attribute in DeliveryRecord**  
 A delivery record documents the process of delivering a parcel. Each record has a partially unique Delivery ID, along with Pickup Time and Delivery Time to track the lifecycle of the delivery. Optional fields include Customer Feedback (text-based comments) and a Feedback Rating on a scale from 1 to 5. These attributes are collected after delivery to monitor service quality.
 
-#### Attribute in Order
+### Attribute in Order
 **Database Requirements for Attribute in Order**  
 Orders are uniquely identified by an Order ID. The entity also stores the Order Date when the transaction was initiated, the Total Cost calculated from shipment charges, and the Order Status, which indicates the current state of the order (e.g., pending, completed, cancelled).
 
-#### Attribute in Payment
+### Attribute in Payment
 **Database Requirements for Attribute in Payment**  
 Payments are tracked using a unique Payment ID. Each payment includes an Amount paid, the Payment Method used (such as credit card, PayPal, etc.), the Payment Date when the transaction was processed, and the Payment Status, which shows whether the payment was completed, pending, or failed.
 
