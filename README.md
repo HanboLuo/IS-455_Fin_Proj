@@ -703,10 +703,68 @@ IS455-Fin_Proj/
 
 ### 10.2 User Interface Features
 
-#### 10.2.1 Tracking
+#### 10.2.1 Parcel Tracking
+
+Users can track the real-time status of a package by entering a valid tracking number. The system displays the status, courier name, pickup and delivery timestamps.
 
 <p align="center">
   <img src="Figures/tracking.png" alt="Tracking Parcel" width="800">
   <br/>
   <strong>Figure 10.1.</strong> Tracking Parcel with Tracking Number
+</p>
+
+#### 10.2.2 Order Lookup
+
+Customers can view their order history by entering their Customer ID. Each order includes payment details, parcel information, and shipment status.
+
+<p align="center">
+  <img src="Figures/order.png" alt="Order Lookup" width="800">
+  <br/>
+  <strong>Figure 10.2.</strong> Lookup Order with Order ID
+</p>
+
+#### 10.2.3 Feedback Submission
+
+Customers can submit feedback related to specific orders, including satisfaction ratings and optional comments.
+
+<p align="center">
+  <img src="Figures/feedback1.png" alt="Feedback Submit" width="800">
+  <br/>
+  <strong>Figure 10.3.</strong> Feedback Submission
+</p>
+
+<p align="center">
+  <img src="Figures/feedback2.png" alt="Feedback Submit" width="800">
+  <br/>
+  <strong>Figure 10.4.</strong> Rate and Comment on an Order
+</p>
+
+#### 10.2.4 Admin Login
+
+An admin login prompt appears when the admin tab is clicked. Entering the correct password grants access to admin-only pages.
+
+<p align="center">
+  <img src="Figures/admin.png" alt="Admin Login" width="800">
+  <br/>
+  <strong>Figure 10.4.</strong> Admin Login (Password: 123)
+</p>
+
+#### 10.2.5 Dispatch Dashboard
+
+The dashboard shows delivery statistics per courier, including delivery count, last delivery time, and assigned zone.
+
+<p align="center">
+  <img src="Figures/dispatch.png" alt="Dispatch Dashboard" width="800">
+  <br/>
+  <strong>Figure 10.5.</strong> Courier Dispatch Dashboard
+</p>
+
+#### 10.2.6 Delivery Log
+
+Admins can enter a courier ID to view all related delivery records, including pickup and delivery times, feedback, and ratings.
+
+<p align="center">
+  <img src="Figures/deliverylog.png" alt="Courier Delivery Log" width="800">
+  <br/>
+  <strong>Figure 10.6.</strong> Courier Delivery Log
 </p>
