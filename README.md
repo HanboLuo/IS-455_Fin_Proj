@@ -52,39 +52,39 @@ The database is designed to support the core business processes (Business Proces
 
 ### Entity & Attribute Requirements
 
-### Attribute in Customer
+### 1. Attribute in Customer
 **Database Requirements for Attribute in Customer**  
 Each customer in the system has a unique Customer ID as the primary key. Customers must provide their full name, stored as separate First Name and Last Name attributes. A unique Email address is required for registration, serving as the customer's login identifier. The system supports multiple Phone Numbers per customer (a multivalued attribute) to accommodate alternate contact methods. The customer's Address is modeled as a composite attribute with sub-attributes: Street, City, and Zip Code. The Registration Date is automatically recorded to track customer tenure. An Account Status field (Active/Inactive) manages account visibility.
 
-### Attribute in Parcel
+### 2. Attribute in Parcel
 **Database Requirements for Attribute in Parcel**  
 Each parcel is uniquely identified by a Tracking Number. It includes key delivery details such as Shipping Type, Weight (in kilograms), and a composite Size attribute containing Length, Width, and Height (in centimeters). The Current Status tracks the progress of the parcel through stages such as "Ordered", "Picked Up", "In Transit", and "Delivered". The Estimated Delivery Date is calculated upon dispatch, while Actual Delivery Date is derived upon successful delivery. An optional Insurance Amount can be specified to indicate the parcel’s declared value.
 
-### Attribute in Employee
+### 3. Attribute in Employee
 **Database Requirements for Attribute in Employee**  
 All employees share a common structure defined by a unique Employee ID, a composite Employee Name (divided into EmpFName and EmpLName), a phone number for contact purposes, and the Hire Date indicating when the employee joined the organization. This structure forms the basis for general employee management across subtypes.
 
-### Attribute in Admin
+### 4. Attribute in Admin
 **Database Requirements for Attribute in Admin**  
 Admins are specialized employees responsible for system administration. In addition to the inherited employee attributes, each Admin record contains a Role attribute, which defines the admin's permission level or area of responsibility (e.g., account management, reporting).
 
-### Attribute in Courier
+### 5. Attribute in Courier
 **Database Requirements for Attribute in Courier**  
 Couriers are a subtype of employees who handle parcel delivery. Each courier has a Vehicle Type attribute indicating their mode of transportation, such as Motorcycle, Van, or Truck. They are also assigned to a specific delivery zone, which is referenced in the ZoneID attribute. All general employee information is inherited from the Employee entity.
 
-### Attribute in DeliveryZone
+### 6. Attribute in DeliveryZone
 **Database Requirements for Attribute in DeliveryZone**  
 Each delivery zone is uniquely identified by a Zone ID. Descriptive attributes include Zone Name, which represents the name or code for the zone, Coverage Area, which describes the geographical scope, and Base Location, identifying the central hub or depot from which deliveries in that zone are managed.
 
-### Attribute in DeliveryRecord
+### 7. Attribute in DeliveryRecord
 **Database Requirements for Attribute in DeliveryRecord**  
 A delivery record documents the process of delivering a parcel. Each record has a partially unique Delivery ID, along with Pickup Time and Delivery Time to track the lifecycle of the delivery. Optional fields include Customer Feedback (text-based comments) and a Feedback Rating on a scale from 1 to 5. These attributes are collected after delivery to monitor service quality.
 
-### Attribute in Order
+### 8. Attribute in Order
 **Database Requirements for Attribute in Order**  
 Orders are uniquely identified by an Order ID. The entity also stores the Order Date when the transaction was initiated, the Total Cost calculated from shipment charges, and the Order Status, which indicates the current state of the order (e.g., pending, completed, cancelled).
 
-### Attribute in Payment
+### 9. Attribute in Payment
 **Database Requirements for Attribute in Payment**  
 Payments are tracked using a unique Payment ID. Each payment includes an Amount paid, the Payment Method used (such as credit card, PayPal, etc.), the Payment Date when the transaction was processed, and the Payment Status, which shows whether the payment was completed, pending, or failed.
 
@@ -203,3 +203,103 @@ Participation: Both mandatory
 ### 3. Denormalization
 
 To optimize query performance, ActualDeliveryDate is retained in the Parcel table, although this value can be derived from the associated DeliveryRecord. This design reduces the need for frequent JOIN operations during parcel tracking queries. Data consistency between Parcel and DeliveryRecord will be enforced at the application level or through database triggers.
+
+
+## Step 7. Create and Populate Database
+
+**SQL File:** [set7.sql](SQL/set7.sql)
+
+***Where does your data come from if you didn't create all the data alone?***
+
+When creating the SpeedExpress Delivery System Database, we referred to real-world 
+delivery platforms, logistics schema designs, and public company operations data 
+available online. These references helped us define the database tables and generate 
+realistic and coherent sample data.
+
+
+***For a few attributes, why did you select the data types?***
+
+We selected appropriate data types to ensure data accuracy, consistency, and efficient 
+querying. For example:  
+* DATE and DATETIME were used to represent critical time-based attributes such 
+as order date, pickup time, and delivery date. 
+* DECIMAL types were chosen for currency-related fields such as shipping costs 
+and insurance amounts to avoid floating-point precision issues.
+
+In addition, we implemented primary keys, foreign keys, and constraints to uphold 
+referential integrity and prevent invalid entries. While populating the database, we 
+ensured that the data remained internally consistent and suitable for subsequent 
+query testing and reporting.
+
+
+## Step 8. SQL Queries
+
+**SQL File:** [set8.sql](SQL/set8.sql)
+
+***Among your ten queries, pick three queries and state how they are closely related 
+to the purpose and intended users of your database.***
+
+We developed ten SQL queries to explore different operational and user-facing aspects 
+of the system. Among them, we highlight three key queries that demonstrate direct 
+application integration and support for interactive usage. 
+
+#### **Query 2: Customers With and Without Orders (Outer Join)**
+
+```sql
+SELECT c.CustomerID, c.FirstName, c.LastName, o.OrderID, o.OrderDate, o.TotalCost  
+FROM Customer c  
+LEFT OUTER JOIN `Order` o ON c.CustomerID = o.CustomerID;
+```
+
+**Purpose:** This is intended for customer service representatives who need visibility into customer 
+engagement, especially to prompt reactivation for customers without recent activity. 
+
+#### **Query 3: Count Deliveries per Courier**
+
+```sql
+SELECT c.CourierID, e.EmpFName, e.EmpLName, COUNT(dr.DeliveryID) AS DeliveryCount  
+FROM Courier c  
+JOIN Employee e ON c.CourierID = e.EmployeeID  
+JOIN DeliveryRecord dr ON c.CourierID = dr.CourierID  
+GROUP BY c.CourierID, e.EmpFName, e.EmpLName;  
+```
+
+**Purpose:** This query provides real-time courier performance data, supporting internal interfaces 
+used by operations managers to oversee resource allocation and workload balancing.
+
+#### **Query 5: Average Order Cost per Customer**
+
+```sql
+SELECT c.CustomerID, c.FirstName, c.LastName, AVG(o.TotalCost) AS AvgOrderCost  
+FROM Customer c  
+JOIN `Order` o ON c.CustomerID = o.CustomerID  
+GROUP BY c.CustomerID, c.FirstName, c.LastName;
+```
+
+**Purpose:** 
+This query can be integrated into customer dashboards to enable dynamic user 
+segmentation and personalized promotions driven by spending behavior. 
+
+
+***If your queries are for direct interactions with end-users via an application, 
+answer the following questions： 
+What is the application? Who are the users?***
+
+For this section, we chose to address the branch:  
+"If your queries are part of an application and interact directly with end users."
+
+The application is the **SpeedExpress Delivery Tracking and Order Management 
+System**, which includes: 
+
+* A web-based interface for customers to view order status and delivery progress. 
+* An internal portal for customer service representatives and administrators to 
+access real-time customer and delivery information.
+
+The users include: 
+
+* **Customers**, who check their order history, parcel status, and payment records 
+via the front-end interface. 
+* **Customer service agents**, who need visibility into customer activity (e.g., 
+inactive users, feedback, pending payments) for support and outreach. 
+* **Admin staff**, who rely on operational queries (like courier delivery count) for real
+time dashboard displays.
