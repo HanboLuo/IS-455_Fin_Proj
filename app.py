@@ -179,6 +179,30 @@ def delivery_log():
 def feedback_page():
     return render_template('feedback.html')
 
+@app.route('/api/submit-feedback', methods=['POST'])
+def submit_feedback():
+    data = request.get_json()
+    tracking_number = data.get('trackingNumber')
+    rating = data.get('feedbackRating')
+    comment = data.get('customerFeedback', '')
+
+    if not tracking_number or not rating:
+        return jsonify({'status': 'error', 'message': 'Missing tracking number or rating.'})
+
+    cursor = mysql.connection.cursor()
+    try:
+        sql = """
+        UPDATE deliveryrecord
+        SET CustomerFeedback = %s, FeedbackRating = %s
+        WHERE TrackingNumber = %s
+        """
+        cursor.execute(sql, (comment, rating, tracking_number))
+        mysql.connection.commit()
+        return jsonify({'status': 'ok', 'message': 'Feedback submitted successfully!'})
+    finally:
+        cursor.close()
+
+
 # ---------------------------
 # Run App
 # ---------------------------

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback - SpeedExpress</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+  <script defer src="{{ url_for('static', filename='script/feedback.js') }}"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="title">📦 SpeedExpress</div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Track Parcel</a></li>
+        <li><a href="{{ url_for('orders_page') }}">My Orders</a></li>
+        <li><a href="{{ url_for('feedback_page') }}">Feedback</a></li>
+        <li><a href="#" onclick="adminLogin()">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="home">
+    <div class="home-content">
+      <h1>Submit Feedback</h1>
+      <p>Let us know how we did by entering your Tracking Number and rating.</p>
+      <div class="search-bar">
+        <input type="text" id="trackInput" placeholder="Enter Tracking Number" />
+        <input type="number" id="ratingInput" placeholder="Rating (1-5)" min="1" max="5" />
+        <input type="text" id="commentInput" placeholder="Your feedback..." />
+        <button onclick="submitFeedback()">Submit</button>
+      </div>
+      <div id="feedbackResult"></div>
+    </div>
+  </section>
+</body>
+</html>

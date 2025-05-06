@@ -3,7 +3,7 @@ import os
 class Config:
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'password' # Replace with your MySQL password
+    MYSQL_PASSWORD = 'Hanzi123' # Replace with your MySQL password
     MYSQL_DB = 'spdexpress'
     MYSQL_CURSORCLASS = 'DictCursor'
 

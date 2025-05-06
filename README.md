@@ -25,7 +25,7 @@ Project Link: https://github.com/HanboLuo/IS-455_Fin_Proj
 
 We designed a database system for a logistics company called SpeedExpress. The company specializes in same-city and cross-city courier service and has over 200 couriers and over 10,000 registered customers.
 
-### Database Purpose
+### 1.1 Database Purpose
 
 The database is designed to support the core business processes (Business Process) of the courier company, including:
 * Customer Order Management (Order Management)
@@ -34,7 +34,7 @@ The database is designed to support the core business processes (Business Proces
 * Delivery Record (Delivery Record) tracking
 * Customer feedback (Feedback) collection
 
-### Target Users
+### 1.2 Target Users
 1. **Customers:** through the website or APP to place an order, tracking packages, submit feedback
 2. **Courier:** receive delivery tasks, update the status of the package (Status)
 3. **Administrator:** monitor operations, generate reports, manage user accounts 
@@ -46,90 +46,90 @@ The database is designed to support the core business processes (Business Proces
 <p align="center">
   <img src="Figures/front_end.png" alt="Frontend Interface" width="800">
   <br/>
-  <strong>Figure 1.</strong> SpeedExpress Frontend Interface
+  <strong>Figure 2.1.</strong> SpeedExpress Frontend Interface
 </p>
 
 
 ## Step 3. Database Requirements
 
-### Entity & Attribute Requirements
+### 3.1 Entity & Attribute Requirements
 
-### 1. Attribute in Customer
+### 3.1.1 Attribute in Customer
 **Database Requirements for Attribute in Customer**  
 Each customer in the system has a unique Customer ID as the primary key. Customers must provide their full name, stored as separate First Name and Last Name attributes. A unique Email address is required for registration, serving as the customer's login identifier. The system supports multiple Phone Numbers per customer (a multivalued attribute) to accommodate alternate contact methods. The customer's Address is modeled as a composite attribute with sub-attributes: Street, City, and Zip Code. The Registration Date is automatically recorded to track customer tenure. An Account Status field (Active/Inactive) manages account visibility.
 
-### 2. Attribute in Parcel
+### 3.1.2 Attribute in Parcel
 **Database Requirements for Attribute in Parcel**  
 Each parcel is uniquely identified by a Tracking Number. It includes key delivery details such as Shipping Type, Weight (in kilograms), and a composite Size attribute containing Length, Width, and Height (in centimeters). The Current Status tracks the progress of the parcel through stages such as "Ordered", "Picked Up", "In Transit", and "Delivered". The Estimated Delivery Date is calculated upon dispatch, while Actual Delivery Date is derived upon successful delivery. An optional Insurance Amount can be specified to indicate the parcel’s declared value.
 
-### 3. Attribute in Employee
+### 3.1.3 Attribute in Employee
 **Database Requirements for Attribute in Employee**  
 All employees share a common structure defined by a unique Employee ID, a composite Employee Name (divided into EmpFName and EmpLName), a phone number for contact purposes, and the Hire Date indicating when the employee joined the organization. This structure forms the basis for general employee management across subtypes.
 
-### 4. Attribute in Admin
+### 3.1.4 Attribute in Admin
 **Database Requirements for Attribute in Admin**  
 Admins are specialized employees responsible for system administration. In addition to the inherited employee attributes, each Admin record contains a Role attribute, which defines the admin's permission level or area of responsibility (e.g., account management, reporting).
 
-### 5. Attribute in Courier
+### 3.1.5 Attribute in Courier
 **Database Requirements for Attribute in Courier**  
 Couriers are a subtype of employees who handle parcel delivery. Each courier has a Vehicle Type attribute indicating their mode of transportation, such as Motorcycle, Van, or Truck. They are also assigned to a specific delivery zone, which is referenced in the ZoneID attribute. All general employee information is inherited from the Employee entity.
 
-### 6. Attribute in DeliveryZone
+### 3.1.6 Attribute in DeliveryZone
 **Database Requirements for Attribute in DeliveryZone**  
 Each delivery zone is uniquely identified by a Zone ID. Descriptive attributes include Zone Name, which represents the name or code for the zone, Coverage Area, which describes the geographical scope, and Base Location, identifying the central hub or depot from which deliveries in that zone are managed.
 
-### 7. Attribute in DeliveryRecord
+### 3.1.7 Attribute in DeliveryRecord
 **Database Requirements for Attribute in DeliveryRecord**  
 A delivery record documents the process of delivering a parcel. Each record has a partially unique Delivery ID, along with Pickup Time and Delivery Time to track the lifecycle of the delivery. Optional fields include Customer Feedback (text-based comments) and a Feedback Rating on a scale from 1 to 5. These attributes are collected after delivery to monitor service quality.
 
-### 8. Attribute in Order
+### 3.1.8 Attribute in Order
 **Database Requirements for Attribute in Order**  
 Orders are uniquely identified by an Order ID. The entity also stores the Order Date when the transaction was initiated, the Total Cost calculated from shipment charges, and the Order Status, which indicates the current state of the order (e.g., pending, completed, cancelled).
 
-### 9. Attribute in Payment
+### 3.1.9 Attribute in Payment
 **Database Requirements for Attribute in Payment**  
 Payments are tracked using a unique Payment ID. Each payment includes an Amount paid, the Payment Method used (such as credit card, PayPal, etc.), the Payment Date when the transaction was processed, and the Payment Status, which shows whether the payment was completed, pending, or failed.
 
 
-### Relationship Requirements
+### 3.2 Relationship Requirements
 
-1) **Referral** (Recursive Relationship)  
+#### 3.2.1 **Referral** (Recursive Relationship)  
 From Customer → Customer  
 One customer can refer many others  
 Cardinality: 1 to many  
 Participation: Both optional  
 
-2) **Places**  
+#### 3.2.2 **Places**  
 Customer → Order  
 One customer can place many orders  
 Participation: Both mandatory  
 
-3) **Pays**  
+#### 3.2.3 **Pays**  
 Order → Payment  
 One-to-one mapping between order and payment  
 Participation: Both mandatory   
 
- 4) **Delivers** (Identifying)  
+#### 3.2.4 **Delivers** (Identifying)  
 Courier → DeliveryRecord  
 One courier can complete many deliveries  
 Participation: Both mandatory  
 
- 5) **Tracks** (Identifying)  
+#### 3.2.5 **Tracks** (Identifying)  
 Parcel → DeliveryRecord  
 Each delivery record belongs to one parcel  
 Participation: Both mandatory  
 
- 6) **BelongsTo**
+#### 3.2.6 **BelongsTo**
 Courier → DeliveryZone  
 Many couriers belong to one zone  
 Participation: Both mandatory  
 
-7) **Sends**  
+#### 3.2.7 **Sends**  
 Customer → Parcel  
 One customer can send many parcels  
 Participation: Both mandatory  
 
- 8) **Receives**   
+#### 3.2.8 **Receives**   
 Customer → Parcel  
 One customer can receive many parcels  
 Participation: Both mandatory  
@@ -140,7 +140,7 @@ Participation: Both mandatory
 <p align="center">
   <img src="Figures/EERD.png" alt="EERD" width="800">
   <br/>
-  <strong>Figure 2.</strong> EERD of SpeedExpress
+  <strong>Figure 4.1.</strong> EERD of SpeedExpress
 </p>
 
 
@@ -149,13 +149,13 @@ Participation: Both mandatory
 <p align="center">
   <img src="Figures/Relational_Schema.png" alt="Relational_Schema" width="800">
   <br/>
-  <strong>Figure 3.</strong> Relational Schema of SpeedExpress
+  <strong>Figure 5.1.</strong> Relational Schema of SpeedExpress
 </p>
 
 
 ## Step 6. Normalization (and Denormalization)
 
-### 1. Original Structures: `Table (Attributes)`
+### 6.1 Original Structures: `Table (Attributes)`
 
 **Customer** (CustomerID, FirstName, LastName, Email, PhoneNumbers, Address, RegistrationDate, AccountStatus)  
 
@@ -172,7 +172,7 @@ Participation: Both mandatory
 **Payment** (PaymentID, OrderID, Amount, PaymentMethod, PaymentDate, PaymentStatus)  
 
 
-### 2. Normalization
+### 6.2 Normalization
 
 1) Customer was normalized into multiple relations to address multivalued and composite attributes:
 
@@ -202,7 +202,7 @@ Participation: Both mandatory
     **Payment** (PaymentID, OrderID, Amount, PaymentMethod, PaymentDate, PaymentStatus)
 
 
-### 3. Denormalization
+### 6.3 Denormalization
 
 To optimize query performance, ActualDeliveryDate is retained in the Parcel table, although this value can be derived from the associated DeliveryRecord. This design reduces the need for frequent JOIN operations during parcel tracking queries. Data consistency between Parcel and DeliveryRecord will be enforced at the application level or through database triggers.
 
@@ -211,7 +211,7 @@ To optimize query performance, ActualDeliveryDate is retained in the Parcel tabl
 
 **SQL File:** [set7.sql](SQL/set7.sql)
 
-***Where does your data come from if you didn't create all the data alone?***
+**7.1 *Where does your data come from if you didn't create all the data alone?***
 
 When creating the SpeedExpress Delivery System Database, we referred to real-world 
 delivery platforms, logistics schema designs, and public company operations data 
@@ -219,7 +219,7 @@ available online. These references helped us define the database tables and gene
 realistic and coherent sample data.
 
 
-***For a few attributes, why did you select the data types?***
+**7.2 *For a few attributes, why did you select the data types?***
 
 We selected appropriate data types to ensure data accuracy, consistency, and efficient 
 querying. For example:  
@@ -238,7 +238,7 @@ query testing and reporting.
 
 **SQL File:** [set8.sql](SQL/set8.sql)
 
-***Among your ten queries, pick three queries and state how they are closely related 
+**8.1 *Among your ten queries, pick three queries and state how they are closely related 
 to the purpose and intended users of your database.***
 
 We developed ten SQL queries to explore different operational and user-facing aspects 
@@ -283,7 +283,7 @@ This query can be integrated into customer dashboards to enable dynamic user
 segmentation and personalized promotions driven by spending behavior. 
 
 
-***If your queries are for direct interactions with end-users via an application, 
+**8.2 *If your queries are for direct interactions with end-users via an application, 
 answer the following questions： 
 What is the application? Who are the users?***
 
@@ -679,3 +679,34 @@ db.DeliveryZone.insertMany([
 // ])
 ```
 
+
+## Step 10. Front-end Interface Development
+
+### 10.1 Structure Overview
+
+```
+IS455-Fin_Proj/  
+├── app.py # Flask backend with all API routes  
+├── config.py # MySQL configuration  
+├── templates/ # HTML pages (track.html, orders.html, dispatch.html, etc.)  
+├── static/  
+│ ├── style/  
+│ │ └── style.css # Global styles with blue-orange theme  
+│ └── script/  
+│ ├── track.js # JS for parcel tracking  
+│ ├── orders.js # JS for order display  
+│ ├── dispatch.js # JS for dispatch admin dashboard  
+│ ├── delivery-log.js # JS for delivery record log  
+│ └── feedback.js # JS for submitting feedback  
+└── README.md
+```
+
+### 10.2 User Interface Features
+
+#### 10.2.1 Tracking
+
+<p align="center">
+  <img src="Figures/tracking.png" alt="Tracking Parcel" width="800">
+  <br/>
+  <strong>Figure 10.1.</strong> Tracking Parcel with Tracking Number
+</p>
