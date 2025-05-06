@@ -1,4 +1,4 @@
-# 📦 SpeedExpress: Courier Tracking and Management System
+# SpeedExpress: Courier Tracking and Management System
 
 SpeedExpress is a full-stack logistics system designed to support the core operations of a courier company, including package tracking, customer order management, courier dispatch, delivery records, and customer feedback.
 
@@ -7,6 +7,8 @@ SpeedExpress is a full-stack logistics system designed to support the core opera
 * Zhouyang Yu - zyu44
 * Siyu Chen - siyu10
 
+**Instructor:** Kahyun Choi  
+**Project template:** Provided by TA: Ziyang Zheng (ziyangz5)  
 
 ## Features
 
